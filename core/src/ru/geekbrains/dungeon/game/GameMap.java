@@ -54,6 +54,7 @@ public class GameMap {
     private TextureRegion grassTexture;
     private TextureRegion goldTexture;
     private TextureRegion[] treesTextures;
+    private TextureRegion berryTexture;
 
     public GameMap() {
         this.data = new Cell[CELLS_X][CELLS_Y];
@@ -65,12 +66,12 @@ public class GameMap {
         int treesCount = (int) ((CELLS_X * CELLS_Y * FOREST_PERCENTAGE) / 100.0f);
         for (int i = 0; i < treesCount; i++) {
             this.data[MathUtils.random(0, CELLS_X - 1)][MathUtils.random(0, CELLS_Y - 1)].changeType(CellType.TREE);
-
         }
 
         this.grassTexture = Assets.getInstance().getAtlas().findRegion("grass");
         this.goldTexture = Assets.getInstance().getAtlas().findRegion("chest").split(60, 60)[0][0];
         this.treesTextures = Assets.getInstance().getAtlas().findRegion("trees").split(60, 90)[0];
+        this.berryTexture = Assets.getInstance().getAtlas().findRegion("fxs").split(60, 60)[3][1];
     }
 
     public boolean isCellPassable(int cx, int cy) {
@@ -96,10 +97,16 @@ public class GameMap {
             for (int j = CELLS_Y - 1; j >= 0; j--) {
                 if (data[i][j].type == CellType.TREE) {
                     batch.draw(treesTextures[data[i][j].index], i * CELL_SIZE, j * CELL_SIZE);
+                    batch.draw(berryTexture, i * CELL_SIZE, j * CELL_SIZE);
                 }
                 if (data[i][j].dropType == DropType.GOLD) {
                     batch.draw(goldTexture, i * CELL_SIZE, j * CELL_SIZE);
                 }
+//                    рисуем ягоды
+//                    но рисуем очень странно
+//                if (MathUtils.random() < 0.5f && (data[i][j].type == CellType.TREE)) {
+//                    batch.draw(berryTexture, i * CELL_SIZE, j * CELL_SIZE);
+//                }
             }
         }
     }
