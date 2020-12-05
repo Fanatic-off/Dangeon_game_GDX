@@ -34,7 +34,7 @@ public class Hero extends Unit {
 
     public void renderHUD(SpriteBatch batch, BitmapFont font, int x, int y) {
         stringHelper.setLength(0);
-        stringHelper
+        stringHelper 
                 .append("Player: ").append(name).append("\n")
                 .append("Gold: ").append(gold).append("\n");
         font.draw(batch, stringHelper, x, y);
