@@ -9,14 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import lombok.Getter;
+import ru.geekbrains.dungeon.game.GameController;
 import ru.geekbrains.dungeon.game.Weapon;
 import ru.geekbrains.dungeon.helpers.Assets;
-import ru.geekbrains.dungeon.game.GameController;
 import ru.geekbrains.dungeon.screens.ScreenManager;
 
 @Getter
 public class Hero extends Unit {
     private String name;
+    private int hungry;
 
     private Group guiGroup;
     private Label hpLabel;
@@ -28,6 +29,14 @@ public class Hero extends Unit {
         this.textureHp = Assets.getInstance().getAtlas().findRegion("hp");
         this.weapon = new Weapon(Weapon.Type.SPEAR, 2, 2, 0);
         this.createGui();
+        this.hungry = 1;
+    }
+
+    public void canIDoActionWithHungry(int hungry) {
+        if (!(hungry < 0)) {
+            //выкунить на меню конец игры
+            Assets.getInstance().loadAssets(ScreenManager.ScreenType.MENU);
+        }
     }
 
     public void update(float dt) {
@@ -38,6 +47,7 @@ public class Hero extends Unit {
                 attack(m);
             } else {
                 goTo(gc.getCursorX(), gc.getCursorY());
+
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
